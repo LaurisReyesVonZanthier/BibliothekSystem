@@ -88,3 +88,210 @@ Module Program
         benutzerListe.Add(New Benutzer(8, "Anna Koch"))
 
     End Sub
+
+
+    ' ==============================
+    ' MENÜ
+    ' ==============================
+    Sub Menu()
+
+        Dim auswahl As Integer = -1
+
+        Do
+
+            Console.WriteLine()
+            Console.WriteLine("1 - Buch hinzufügen")
+            Console.WriteLine("2 - Benutzer hinzufügen")
+            Console.WriteLine("3 - Alle Bücher anzeigen")
+            Console.WriteLine("4 - Alle Benutzer anzeigen")
+            Console.WriteLine("5 - Buch ausleihen")
+            Console.WriteLine("6 - Buch zurückgeben")
+            Console.WriteLine("0 - Beenden")
+
+            Dim eingabe As String = Console.ReadLine()
+
+            If IsNumeric(eingabe) Then
+                auswahl = Convert.ToInt32(eingabe)
+            Else
+                auswahl = -1
+            End If
+
+            Console.WriteLine()
+
+            If auswahl = 1 Then
+                BuchHinzufuegen()
+
+            ElseIf auswahl = 2 Then
+                BenutzerHinzufuegen()
+
+            ElseIf auswahl = 3 Then
+                AlleBuecher()
+
+            ElseIf auswahl = 4 Then
+                AlleBenutzer()
+
+            ElseIf auswahl = 5 Then
+                BuchAusleihen()
+
+            ElseIf auswahl = 6 Then
+                BuchZurueckgeben()
+
+            ElseIf auswahl = 0 Then
+                Console.WriteLine("Programm beendet.")
+
+            Else
+                Console.WriteLine("Ungültige Eingabe.")
+            End If
+
+        Loop While auswahl <> 0 'Menü läuft weiter bis 0 eingegeben wird
+
+    End Sub
+
+
+    ' ==============================
+    ' BUCH HINZUFÜGEN
+    ' ==============================
+    Sub BuchHinzufuegen()
+
+        Console.Write("ID: ")
+        Dim id As Integer = Convert.ToInt32(Console.ReadLine())
+
+        Console.Write("Titel: ")
+        Dim titel As String = Console.ReadLine()
+
+        Console.Write("Autor: ")
+        Dim autor As String = Console.ReadLine()
+
+        buecherListe.Add(New Buch(id, titel, autor))
+
+    End Sub
+
+
+    ' ==============================
+    ' BENUTZER HINZUFÜGEN
+    ' ==============================
+    Sub BenutzerHinzufuegen()
+
+        Console.Write("ID: ")
+        Dim id As Integer = Convert.ToInt32(Console.ReadLine())
+
+        Console.Write("Name: ")
+        Dim name As String = Console.ReadLine()
+
+        benutzerListe.Add(New Benutzer(id, name))
+
+    End Sub
+
+
+    ' ==============================
+    ' ALLE BÜCHER ANZEIGEN
+    ' ==============================
+    Sub AlleBuecher()
+
+        For i As Integer = 0 To buecherListe.Count - 1 'Schleife duch alle Bücher
+
+            Dim status As String
+
+            If buecherListe(i).Verfuegbar Then
+                status = "Verfügbar"
+            Else
+                status = "Ausgeliehen von Benutzer " & buecherListe(i).AusgeliehenVon
+            End If
+
+            Console.WriteLine("ID: " & buecherListe(i).Id &
+                              " | Titel: " & buecherListe(i).Titel &
+                              " | Autor: " & buecherListe(i).Autor &
+                              " | Status: " & status)
+
+        Next
+
+    End Sub
+
+
+    ' ==============================
+    ' ALLE BENUTZER ANZEIGEN
+    ' ==============================
+    Sub AlleBenutzer()
+
+        For i As Integer = 0 To benutzerListe.Count - 1
+
+            Console.WriteLine("ID: " & benutzerListe(i).Id &
+                              " | Name: " & benutzerListe(i).Name)
+
+        Next
+
+    End Sub
+
+
+    ' ==============================
+    ' BUCH AUSLEIHEN
+    ' ==============================
+    Sub BuchAusleihen()
+
+        Console.Write("Buch-ID: ")
+        Dim buchId As Integer = Convert.ToInt32(Console.ReadLine())
+
+        Console.Write("Benutzer-ID: ")
+        Dim userId As Integer = Convert.ToInt32(Console.ReadLine())
+
+        For i As Integer = 0 To buecherListe.Count - 1
+
+            If buecherListe(i).Id = buchId Then
+
+                If buecherListe(i).Verfuegbar Then
+
+                    buecherListe(i).Verfuegbar = False
+                    buecherListe(i).AusgeliehenVon = userId
+
+                    Console.WriteLine("Buch erfolgreich ausgeliehen.")
+
+                Else
+                    Console.WriteLine("Buch ist bereits ausgeliehen.")
+                End If
+
+                Return
+            End If
+
+        Next
+
+        Console.WriteLine("Buch nicht gefunden.")
+
+    End Sub
+
+
+    ' ==============================
+    ' BUCH ZURÜCKGEBEN
+    ' ==============================
+    Sub BuchZurueckgeben()
+
+        Console.Write("Buch-ID: ")
+        Dim buchId As Integer = Convert.ToInt32(Console.ReadLine())
+
+        Console.Write("Benutzer-ID: ")
+        Dim userId As Integer = Convert.ToInt32(Console.ReadLine())
+
+        For i As Integer = 0 To buecherListe.Count - 1
+
+            If buecherListe(i).Id = buchId Then
+
+                If buecherListe(i).AusgeliehenVon = userId Then
+
+                    buecherListe(i).Verfuegbar = True
+                    buecherListe(i).AusgeliehenVon = 0
+
+                    Console.WriteLine("Buch erfolgreich zurückgegeben.")
+
+                Else
+                    Console.WriteLine("Dieses Buch wurde nicht von diesem Benutzer ausgeliehen.")
+                End If
+
+                Return
+            End If
+
+        Next
+
+        Console.WriteLine("Buch nicht gefunden.")
+
+    End Sub
+
+End Module
