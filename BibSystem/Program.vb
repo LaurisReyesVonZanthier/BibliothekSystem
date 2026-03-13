@@ -1,0 +1,90 @@
+Imports System
+Imports System.Collections.Generic
+
+' ==============================
+' KLASSE BUCH
+'Repräsentiert ein Buch in der Bibliothek
+' ==============================
+Public Class Buch
+
+    'Eigenschaften eines Buches
+    Public Property Id As Integer
+    Public Property Titel As String
+    Public Property Autor As String
+    Public Property Verfuegbar As Boolean 'Wert der Speichert, ob Buch ausgeliehen oder nicht
+    Public Property AusgeliehenVon As Integer
+
+    Public Sub New(id As Integer, titel As String, autor As String)
+
+        Me.Id = id
+        Me.Titel = titel
+        Me.Autor = autor
+        Me.Verfuegbar = True
+        Me.AusgeliehenVon = 0
+
+    End Sub
+
+End Class
+
+
+' ==============================
+' KLASSE BENUTZER
+' ==============================
+Public Class Benutzer
+
+    Public Property Id As Integer
+    Public Property Name As String
+
+    Public Sub New(id As Integer, name As String)
+
+        Me.Id = id
+        Me.Name = name
+
+    End Sub
+
+End Class
+
+
+' ==============================
+' HAUPTPROGRAMM
+' ==============================
+Module Program
+
+    Dim buecherListe As New List(Of Buch)
+    Dim benutzerListe As New List(Of Benutzer)
+
+
+    Sub Main()
+
+        LadeTestdaten()
+        Menu()             'Startet Menüsystem
+
+    End Sub
+
+
+    ' ==============================
+    ' TESTDATEN
+    ' ==============================
+    Sub LadeTestdaten()
+
+        ' Bücher
+        buecherListe.Add(New Buch(1, "Informatik 1", "Müller"))
+        buecherListe.Add(New Buch(2, "VB.NET Grundlagen", "Schmidt"))
+        buecherListe.Add(New Buch(3, "Datenstrukturen", "Klein"))
+        buecherListe.Add(New Buch(4, "Softwaretechnik", "Meier"))
+        buecherListe.Add(New Buch(5, "Algorithmen einfach erklärt", "Fischer"))
+        buecherListe.Add(New Buch(6, "Rechnerarchitektur", "Weber"))
+        buecherListe.Add(New Buch(7, "Betriebssysteme", "Hartmann"))
+        buecherListe.Add(New Buch(8, "Netzwerktechnik", "Schulz"))
+
+        ' Benutzer
+        benutzerListe.Add(New Benutzer(1, "Max Mustermann"))
+        benutzerListe.Add(New Benutzer(2, "Erika Musterfrau"))
+        benutzerListe.Add(New Benutzer(3, "Hans Meier"))
+        benutzerListe.Add(New Benutzer(4, "Laura Schmidt"))
+        benutzerListe.Add(New Benutzer(5, "Tim Becker"))
+        benutzerListe.Add(New Benutzer(6, "Sophie Wagner"))
+        benutzerListe.Add(New Benutzer(7, "Lukas Hoffmann"))
+        benutzerListe.Add(New Benutzer(8, "Anna Koch"))
+
+    End Sub
